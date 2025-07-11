@@ -18,6 +18,12 @@
             background: linear-gradient(135deg, #fdfaf6 0%, #fcf7f2 100%); /* Subtle gradient background */
             color: #333333; /* Default text color */
             animation: backgroundShift 20s ease infinite alternate; /* Slow, gentle background animation */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem; /* Overall body padding */
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
         @keyframes backgroundShift {
             0% { background-position: 0% 50%; }
@@ -29,23 +35,37 @@
         /* Main container for the interactive card */
         .main-card-container {
             perspective: 1000px; /* For subtle 3D effects on transitions */
-            /* Removed min-height and overflow-hidden - will auto-adjust */
-            position: relative; /* Needed for z-index and potential future absolute children */
+            position: relative;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='0' y='30' font-size='30' fill='%23fce7f3' opacity='0.5'%3E%E2%99%A5%3C/text%3E%3C/svg%3E"); /* Subtle repeating heart pattern */
+            background-repeat: repeat;
+            background-size: 40px 40px;
+            box-sizing: border-box; /* Include padding in width/height */
+            width: 100%; /* Take full width up to max-w */
+            max-width: 900px; /* Limit width on large screens */
+            min-height: 700px; /* Ensure a base height for content */
+            display: flex; /* Use flex to manage inner sections */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .card-section {
-            transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out; /* Slightly longer, smoother transition */
-            /* Removed position: absolute, top, left, width, height - now a block element */
-            display: flex; /* Still flex to center content within its own space */
+            transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out; /* Smooth transition */
+            display: flex; /* Flexbox for centering content */
+            flex-direction: column; /* Stack content vertically */
             align-items: center;
             justify-content: center;
-            padding: 2rem; /* Consistent padding */
+            padding: 2.5rem; /* Consistent padding for all sections */
             backface-visibility: hidden; /* Prevent flickering during 3D transforms */
-            min-height: 600px; /* Ensure a minimum height for each section */
+            width: 100%; /* Take full width of parent */
+            box-sizing: border-box; /* Include padding in width */
+            /* Removed absolute positioning, now handled by display:none */
+            min-height: 100%; /* Ensure content takes up available height */
+            text-align: center; /* Center text within section */
         }
         .hidden-section {
             opacity: 0;
-            transform: translateY(30px) rotateX(5deg); /* More pronounced slide and subtle rotate */
+            transform: scale(0.95); /* Subtle zoom out effect */
             pointer-events: none; /* Prevent interaction when hidden */
             visibility: hidden; /* Hide from screen readers and layout */
             display: none; /* Crucial: hide from layout when not active */
@@ -68,6 +88,7 @@
             display: flex; /* Ensure content is centered */
             align-items: center;
             justify-content: center;
+            text-align: center; /* Ensure text is centered within its display */
         }
         /* Custom styles for professional look */
         .btn-primary {
@@ -134,14 +155,94 @@
             border: 2px solid #fcd34d; /* Subtle border */
             text-shadow: 1px 1px 3px rgba(0,0,0,0.1); /* Subtle shadow for icons */
         }
+        /* Transition Burst effect (for intermediate steps) */
+        #transition-burst {
+            position: fixed; /* Fixed position relative to viewport */
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(255,223,133,0.8) 0%, rgba(255,223,133,0) 70%);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 20; /* Above card sections */
+        }
+        .transition-burst-active {
+            animation: burst-effect 0.8s ease-out forwards;
+        }
+        /* Finale Burst effect (for the last step) */
+        #finale-burst {
+            position: fixed; /* Fixed position relative to viewport */
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(255,215,0,0.9) 0%, rgba(255,215,0,0) 70%); /* Stronger gold */
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 25; /* Higher than transition burst */
+        }
+        .finale-burst-active {
+            animation: finale-burst-effect 1.2s ease-out forwards; /* Longer, more dramatic */
+        }
+        @keyframes burst-effect {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } /* Larger expansion */
+        }
+        @keyframes finale-burst-effect {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(2.5); } /* Much larger expansion for finale */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 640px) {
+            body {
+                padding: 0.5rem; /* Less padding on very small screens */
+            }
+            .main-card-container {
+                min-height: auto; /* Allow height to be determined by content */
+                padding-bottom: 2rem; /* Add some padding at the bottom for scrolling */
+            }
+            .card-section {
+                padding: 1rem; /* Reduce padding on very small screens */
+            }
+            .section-title-main {
+                font-size: 2.5rem; /* Smaller font size for main title on small screens */
+            }
+            .section-subtitle-decorative {
+                font-size: 1.8rem; /* Smaller font size for subtitle on small screens */
+            }
+            .btn-primary, .btn-secondary {
+                padding: 0.6rem 1.8rem;
+                font-size: 0.85rem;
+            }
+            .icon-circle {
+                width: 18vw; /* Responsive width for icons */
+                height: 18vw; /* Responsive height for icons */
+                font-size: 9vw; /* Responsive font size for icon content */
+            }
+            #theme-text-display {
+                min-height: 90px; /* Adjust min-height for theme text */
+            }
+            .quote-panel {
+                padding: 1.2rem 1.5rem;
+            }
+            .quote-panel p {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
+<body class="flex items-center justify-center min-h-screen">
 
     <main class="main-card-container w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
         
         <!-- Step 1: The Cover / Envelope -->
-        <section id="step-1" class="card-section p-8 sm:p-12 md:p-16 text-center">
+        <section id="step-1" class="card-section text-center">
             <div class="w-full">
                 <h1 class="section-title-main text-4xl sm:text-5xl md:text-6xl lg:text-7xl">To My Dearest Isha, My Unfading Star,</h1>
                 <p class="section-subtitle-decorative text-3xl sm:text-4xl md:text-5xl mt-4">My Forever Light, My Beautiful Wife</p>
@@ -154,7 +255,7 @@
         </section>
 
         <!-- Step 2: The Gift Reveal -->
-        <section id="step-2" class="card-section hidden-section p-8 sm:p-12 md:p-16 text-center">
+        <section id="step-2" class="card-section hidden-section text-center">
             <div class="w-full">
                 <p class="text-xl text-muted mb-6">With every beat of my heart, I joyfully present to you...</p>
                 <div class="card-panel my-8">
@@ -172,7 +273,7 @@
         </section>
 
         <!-- Step 3: Interactive Themes -->
-        <section id="step-3" class="card-section hidden-section p-8 sm:p-12 md:p-16 text-center">
+        <section id="step-3" class="card-section hidden-section text-center">
             <div class="w-full">
                 <h2 class="font-playfair text-2xl sm:text-3xl md:text-4xl text-gray-800 leading-normal">Just as Premier Energis lights the world, may you feel the boundless energy of my love, a love rooted in:</h2>
                 <p class="text-gray-600 mt-6 text-base sm:text-lg">Click on each to explore its meaning:</p>
@@ -202,7 +303,7 @@
         </section>
         
         <!-- Step 4: Final Message & Quote -->
-        <section id="step-4" class="card-section hidden-section p-8 sm:p-12 md:p-16 text-center">
+        <section id="step-4" class="card-section hidden-section text-center">
              <div class="w-full">
                 <p class="text-gray-600 mt-4 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
                     Let these words forever echo the boundless depth of my devotion:
@@ -227,6 +328,11 @@
             </div>
         </section>
 
+        <!-- Transition Burst Overlay -->
+        <div id="transition-burst"></div>
+        <!-- Finale Burst Overlay -->
+        <div id="finale-burst"></div>
+
     </main>
 
     <script>
@@ -248,6 +354,19 @@
 
         const themeTextElement = document.getElementById('theme-text');
         const icons = document.querySelectorAll('.interactive-icon');
+        const transitionBurst = document.getElementById('transition-burst');
+        const finaleBurst = document.getElementById('finale-burst');
+
+        // Function to trigger the appropriate burst animation
+        function triggerBurst(isFinale = false) {
+            const burstElement = isFinale ? finaleBurst : transitionBurst;
+            const activeClass = isFinale ? 'finale-burst-active' : 'transition-burst-active';
+
+            burstElement.classList.remove(activeClass);
+            // Force reflow to restart animation
+            void burstElement.offsetWidth; 
+            burstElement.classList.add(activeClass);
+        }
 
         // Function to show a step with smooth transition
         function showStep(stepIndex) {
@@ -258,10 +377,15 @@
 
             // Show the new step
             const nextStepElement = steps.elements[stepIndex];
-            // Remove hidden-section first to allow transition
             nextStepElement.classList.remove('hidden-section'); 
 
             steps.current = stepIndex;
+
+            // Scroll to top of the window
+            window.scrollTo(0, 0);
+
+            // Trigger appropriate burst on step change
+            triggerBurst(stepIndex === 3); // True if it's the last step
         }
 
         document.getElementById('open-button').addEventListener('click', () => {
@@ -277,8 +401,7 @@
         });
 
         // Add data-theme attribute to icons for easier access
-        // Ensure all three icons have the data-theme attribute in HTML.
-        // This JavaScript part remains for consistency, but the HTML should be primary source.
+        // These lines are now redundant if data-theme is correctly in HTML, but harmless.
         document.querySelector('#step-3 .interactive-icon:nth-child(1)').setAttribute('data-theme', 'trust');
         document.querySelector('#step-3 .interactive-icon:nth-child(2)').setAttribute('data-theme', 'time');
         document.querySelector('#step-3 .interactive-icon:nth-child(3)').setAttribute('data-theme', 'togetherness');
@@ -303,13 +426,13 @@
         
         // Initial state: show the first step and set initial theme text
         document.addEventListener('DOMContentLoaded', () => {
-            // Initially hide all steps except the first one in JS
+            // Initially hide all steps except the first one
             steps.elements.forEach((el, index) => {
                 if (index !== 0) {
                     el.classList.add('hidden-section');
                 }
             });
-            // Ensure the first step is visible (it should not have hidden-section in HTML)
+            // Ensure the first step is visible
             steps.elements[0].classList.remove('hidden-section');
 
             steps.current = 0; // Set current step to 0
