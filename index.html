@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Special Message for Isha</title>
-    <!-- Chosen Palette: Golden Harmony -->
+    <!-- Chosen Palette: Golden Harvest (Soft creams, rich ambers, deep grays, with subtle gold accents for elegance and warmth) -->
     <!-- Application Structure Plan: A guided, multi-step "digital unveiling" experience. The user starts with a "cover," then clicks to reveal the gift, then interacts with key themes (Trust, Time, Togetherness) to see their meaning, and finally views the closing message and signature. This structure turns a static letter into a memorable, paced experience, mirroring the act of opening a precious gift and reading its card. It prioritizes emotional engagement over a simple data display. -->
     <!-- Visualization & Content Choices: 1. Cover: Large text with a button to build anticipation (HTML/CSS). 2. Gift Reveal: Animated card-like element to focus on the core gift (HTML/CSS/JS). 3. Thematic Exploration: Three interactive icons (Unicode characters styled with CSS) that, when clicked, reveal descriptive text (JS interaction). This organizes the core values and encourages engagement. 4. Quote & Closing: Elegantly styled text blocks for a clean, final presentation (HTML/CSS). No charts are needed as the source is qualitative. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -15,125 +15,216 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #fdfaf6; /* Warm off-white */
+            background: linear-gradient(135deg, #fdfaf6 0%, #fcf7f2 100%); /* Subtle gradient background */
+            color: #333333; /* Default text color */
+            animation: backgroundShift 20s ease infinite alternate; /* Slow, gentle background animation */
+        }
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
         .font-playfair { font-family: 'Playfair Display', serif; }
         .font-great-vibes { font-family: 'Great Vibes', cursive; }
+        
+        /* Main container for the interactive card */
+        .main-card-container {
+            perspective: 1000px; /* For subtle 3D effects on transitions */
+            position: relative;
+            min-height: 650px; /* Ensure enough height for content */
+        }
+
         .card-section {
-            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out; /* Slightly longer, smoother transition */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            backface-visibility: hidden; /* Prevent flickering during 3D transforms */
         }
         .hidden-section {
             opacity: 0;
-            transform: translateY(20px);
-            display: none;
+            transform: translateY(30px) rotateX(5deg); /* More pronounced slide and subtle rotate */
+            pointer-events: none;
+            visibility: hidden;
         }
         .interactive-icon {
             transition: all 0.3s ease;
         }
         .interactive-icon:hover {
-            transform: scale(1.1);
+            transform: scale(1.1); /* More pronounced scale */
             filter: brightness(1.1);
         }
         .interactive-icon.active {
-            transform: scale(1.15);
+            transform: scale(1.18); /* More pronounced active state */
             background-color: #fef3c7; /* Light yellow to indicate active state */
-            box-shadow: 0 0 15px rgba(255, 223, 133, 0.7);
+            box-shadow: 0 0 20px rgba(255, 223, 133, 0.9); /* Stronger glow */
         }
         #theme-text-display {
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.6s ease-in-out; /* Slightly longer fade for text */
+            min-height: 140px; /* More breathing room for text */
+            display: flex; /* Ensure content is centered */
+            align-items: center;
+            justify-content: center;
         }
-        .fade-in {
-            animation: fadeIn 1.5s ease-in-out forwards;
+        /* Custom styles for professional look */
+        .btn-primary {
+            background-color: #d97706; /* Amber 700 */
+            color: #ffffff;
+            font-weight: 700;
+            padding: 0.85rem 2.5rem; /* Larger padding */
+            border-radius: 9999px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em; /* Subtle letter spacing */
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-primary:hover {
+            background-color: #b45309; /* Amber 800 */
+            transform: translateY(-3px) scale(1.03); /* More lift and scale */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-secondary {
+            background-color: #4b5563; /* Gray 700 */
+            color: #ffffff;
+            font-weight: 700;
+            padding: 0.85rem 2.5rem;
+            border-radius: 9999px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+        }
+        .btn-secondary:hover {
+            background-color: #374151; /* Gray 800 */
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .section-title-main {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #1f2937;
+            letter-spacing: -0.03em; /* Tighter for elegance */
+            line-height: 1.1; /* Tighter line height */
+        }
+        .section-subtitle-decorative {
+            font-family: 'Great Vibes', cursive;
+            color: #d97706;
+            line-height: 1.2;
+        }
+        .text-muted {
+            color: #6b7280;
+        }
+        .card-panel {
+            background-color: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 1rem; /* More rounded */
+            padding: 2rem 2.5rem; /* More padding */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Deeper subtle shadow */
+        }
+        .quote-panel {
+            background-color: #fffbeb;
+            border-left: 6px solid #f59e0b; /* Thicker border */
+            padding: 2rem 2.5rem;
+            border-radius: 0.75rem; /* More rounded */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .icon-circle {
+            background-color: #fff7ed; /* Lighter amber background for icons */
+            border: 2px solid #fcd34d; /* Subtle border */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1); /* Subtle shadow for icons */
         }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
 
-    <main class="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+    <main class="main-card-container w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
         
         <!-- Step 1: The Cover / Envelope -->
-        <section id="step-1" class="card-section p-8 sm:p-12 text-center fade-in">
+        <section id="step-1" class="card-section p-8 sm:p-12 md:p-16 text-center">
             <div class="w-full">
-                <h1 class="font-playfair text-4xl sm:text-5xl md:text-6xl text-gray-800">To My Dearest Isha,</h1>
-                <p class="font-great-vibes text-3xl sm:text-4xl text-amber-600 mt-4">My Forever Light</p>
-                <p class="mt-8 text-gray-500 text-lg">On your first birthday as my wife</p>
-                <p class="text-gray-500">July 16, 2025</p>
-                <button id="open-button" class="mt-12 bg-amber-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-amber-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-opacity-50">
-                    Click to Open 💌
+                <h1 class="section-title-main text-4xl sm:text-5xl md:text-6xl lg:text-7xl">To My Dearest Isha, My Unfading Star,</h1>
+                <p class="section-subtitle-decorative text-3xl sm:text-4xl md:text-5xl mt-4">My Forever Light, My Beautiful Wife</p>
+                <p class="mt-8 text-muted text-base sm:text-lg">On this sacred day, your first birthday as my beloved wife,</p>
+                <p class="text-muted text-base sm:text-lg">July 16, 2025</p>
+                <button id="open-button" class="btn-primary mt-12">
+                    Unveil Your Gift of Love 💖
                 </button>
             </div>
         </section>
 
         <!-- Step 2: The Gift Reveal -->
-        <section id="step-2" class="card-section hidden-section p-8 sm:p-12 text-center">
+        <section id="step-2" class="card-section hidden-section p-8 sm:p-12 md:p-16 text-center">
             <div class="w-full">
-                <p class="text-lg text-gray-500 mb-4">With all my love, I present to you...</p>
-                <div class="bg-amber-50 border-2 border-amber-400 rounded-xl p-6 sm:p-8 shadow-inner my-6">
-                    <h2 class="font-playfair font-bold text-4xl sm:text-5xl text-amber-900">33 Shares</h2>
+                <p class="text-xl text-muted mb-6">With every beat of my heart, I joyfully present to you...</p>
+                <div class="card-panel my-8">
+                    <h2 class="font-playfair font-bold text-4xl sm:text-5xl md:text-6xl text-amber-900">A Precious Gift of 33 Shares</h2>
                     <p class="text-xl sm:text-2xl text-gray-700 mt-2">in</p>
-                    <p class="font-playfair text-3xl sm:text-4xl text-amber-800 mt-1">Premier Energis Ltd.</p>
+                    <p class="font-playfair text-3xl sm:text-4xl md:text-5xl text-amber-800 mt-1">Premier Energis Ltd.</p>
                 </div>
-                <p class="text-gray-600 mt-6 max-w-2xl mx-auto text-base sm:text-lg">
-                    This isn't merely an investment in a company, my love. This is a symbol of the vibrant future we are building together, and a testament to the shared power of our dreams.
+                <p class="text-gray-600 mt-8 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
+                    This isn't merely a financial investment, my love. It's a tangible expression of the boundless energy and light you bring into my life, a symbol of the vibrant, prosperous future we are meticulously building, hand-in-hand, and the enduring power of our dreams, forever intertwined.
                 </p>
-                <button id="next-button-1" class="mt-12 bg-gray-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
-                    See What It Represents ✨
+                <button id="next-button-1" class="btn-secondary mt-12">
+                    Discover Our Foundations ✨
                 </button>
             </div>
         </section>
 
         <!-- Step 3: Interactive Themes -->
-        <section id="step-3" class="card-section hidden-section p-8 sm:p-12 text-center">
+        <section id="step-3" class="card-section hidden-section p-8 sm:p-12 md:p-16 text-center">
             <div class="w-full">
-                <h2 class="font-playfair text-2xl sm:text-3xl text-gray-800">In every watt of energy this company generates, may you feel the immense energy of my love for you.</h2>
-                <p class="text-gray-600 mt-4 text-base sm:text-lg">It's a love that, like these shares, is rooted in:</p>
+                <h2 class="font-playfair text-2xl sm:text-3xl md:text-4xl text-gray-800 leading-normal">Just as Premier Energis lights the world, may you feel the boundless energy of my love, a love rooted in:</h2>
+                <p class="text-gray-600 mt-6 text-base sm:text-lg">Click on each to explore its meaning:</p>
                 
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 mt-10">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 mt-12">
                     <div class="interactive-icon text-center cursor-pointer p-4 rounded-full" data-theme="trust">
-                        <div class="bg-amber-100 text-amber-600 text-4xl rounded-full w-20 h-20 flex items-center justify-center shadow-md">💛</div>
-                        <p class="mt-3 font-semibold text-gray-700">Unwavering Trust</p>
+                        <div class="icon-circle text-amber-600 text-5xl rounded-full w-24 h-24 flex items-center justify-center shadow-md">💛</div>
+                        <p class="mt-3 font-semibold text-gray-700 text-base sm:text-lg">Unwavering Trust</p>
                     </div>
                     <div class="interactive-icon text-center cursor-pointer p-4 rounded-full" data-theme="time">
-                        <div class="bg-amber-100 text-amber-600 text-4xl rounded-full w-20 h-20 flex items-center justify-center shadow-md">⏳</div>
-                        <p class="mt-3 font-semibold text-gray-700">Cherished Time</p>
+                        <div class="icon-circle text-amber-600 text-5xl rounded-full w-24 h-24 flex items-center justify-center shadow-md">⏳</div>
+                        <p class="mt-3 font-semibold text-gray-700 text-base sm:text-lg">Cherished Time</p>
                     </div>
                     <div class="interactive-icon text-center cursor-pointer p-4 rounded-full" data-theme="togetherness">
-                        <div class="bg-amber-100 text-amber-600 text-4xl rounded-full w-20 h-20 flex items-center justify-center shadow-md">🤝</div>
-                        <p class="mt-3 font-semibold text-gray-700">Deep Togetherness</p>
+                        <div class="icon-circle text-amber-600 text-5xl rounded-full w-24 h-24 flex items-center justify-center shadow-md">🤝</div>
+                        <p class="mt-3 font-semibold text-gray-700 text-base sm:text-lg">Deep Togetherness</p>
                     </div>
                 </div>
 
-                <div id="theme-text-display" class="mt-8 min-h-[100px] flex items-center justify-center p-4">
-                    <p id="theme-text" class="text-gray-600 italic text-lg max-w-xl mx-auto opacity-0"></p>
+                <div id="theme-text-display" class="mt-10 min-h-[140px] flex items-center justify-center p-4">
+                    <p id="theme-text" class="text-gray-600 italic text-lg max-w-xl mx-auto opacity-0 leading-relaxed"></p>
                 </div>
-                 <button id="next-button-2" class="mt-8 bg-gray-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
-                    Our Promise
+                 <button id="next-button-2" class="btn-secondary mt-8">
+                    Our Eternal Promise 💍
                 </button>
             </div>
         </section>
         
         <!-- Step 4: Final Message & Quote -->
-        <section id="step-4" class="card-section hidden-section p-8 sm:p-12 text-center">
+        <section id="step-4" class="card-section hidden-section p-8 sm:p-12 md:p-16 text-center">
              <div class="w-full">
-                <div class="bg-amber-50 border-l-4 border-amber-500 text-left p-6 sm:p-8 my-8 max-w-2xl mx-auto shadow-sm">
-                    <p class="font-playfair italic text-xl sm:text-2xl text-gray-700">
-                        "From this cherished day forward, may our hearts expand as gracefully as our assets do — cultivating a wealth not merely in finance, but in an abundance of shared laughter, soaring dreams, and countless precious moments."
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
+                    Let these words forever echo the boundless depth of my devotion:
+                </p>
+                <div class="quote-panel my-8 max-w-2xl mx-auto">
+                    <p class="font-playfair italic text-xl sm:text-2xl md:text-3xl text-gray-700 leading-normal">
+                        "From this cherished day forward, may our hearts expand as gracefully as our assets do —<br>
+                        cultivating a wealth not merely in finance, but in an abundance of shared laughter, soaring dreams, and countless precious moments."
                     </p>
                 </div>
                 
-                 <p class="text-gray-600 mt-10 max-w-2xl mx-auto text-base sm:text-lg">
-                    Happy Birthday, my love. This is only the beginning of our forever portfolio.
+                 <p class="text-gray-600 mt-10 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
+                    Happy Birthday, my extraordinary, cherished wife. This is merely the dawn of our forever portfolio – a boundless legacy woven from infinite love, shared laughter, and dreams that will forever soar.
                 </p>
 
-                <p class="font-great-vibes text-4xl text-amber-600 mt-10">Alpesh Patel</p>
-                <p class="text-gray-500 text-sm">Your Loving Husband, Always and Forever</p>
+                <p class="font-great-vibes text-4xl sm:text-5xl md:text-6xl text-amber-600 mt-10">Alpesh Patel</p>
+                <p class="text-muted text-sm sm:text-base mt-2">Your Devoted Husband, Always and Forever</p>
 
-                <p class="mt-12 text-gray-500 font-semibold tracking-wider">
-                    A Share of Energy ● A Share of Love ● A Future Woven Together
+                <p class="mt-12 text-muted font-semibold tracking-wider text-sm sm:text-base">
+                    A Symphony of Shared Energy ● A Legacy of Unconditional Love ● A Future Beautifully Woven Together
                 </p>
             </div>
         </section>
@@ -152,30 +243,26 @@
         };
         
         const themeData = {
-            trust: "The foundation upon which our beautiful life is built.",
-            time: "Every moment spent with you is a treasure, compounding our happiness.",
-            togetherness: "Our journey, hand in hand, creating a future richer than any financial portfolio."
+            trust: "The sacred bedrock of our beautiful union, built on unwavering faith, complete vulnerability, and open hearts that always find their way back home.",
+            time: "Every precious, fleeting moment we've shared, meticulously weaving the rich, vibrant tapestry of our life together, each second compounding into an irreplaceable treasure.",
+            togetherness: "The inseparable, joyous journey we embark upon, hand in hand, creating a future more abundant, more radiant, and more fulfilling than any earthly treasure."
         };
 
         const themeTextElement = document.getElementById('theme-text');
         const icons = document.querySelectorAll('.interactive-icon');
 
+        // Function to show a step with smooth transition
         function showStep(stepIndex) {
-            steps.elements.forEach((el, index) => {
-                if (index === stepIndex) {
-                    el.style.display = 'block';
-                    // Delay slightly to allow display property to apply before animation starts
-                    setTimeout(() => {
-                        el.classList.remove('hidden-section');
-                    }, 50);
-                } else {
-                    el.classList.add('hidden-section');
-                    // Hide element after transition
-                    setTimeout(() => {
-                        if(index !== stepIndex) el.style.display = 'none';
-                    }, 1000);
-                }
-            });
+            // Hide the current step first
+            if (steps.elements[steps.current]) {
+                steps.elements[steps.current].classList.add('hidden-section');
+            }
+
+            // Show the new step
+            const nextStepElement = steps.elements[stepIndex];
+            // Remove hidden-section first to allow transition
+            nextStepElement.classList.remove('hidden-section'); 
+
             steps.current = stepIndex;
         }
 
@@ -191,16 +278,24 @@
             showStep(3);
         });
 
+        // Add data-theme attribute to icons for easier access
+        // Ensure all three icons have the data-theme attribute in HTML.
+        // This JavaScript part remains for consistency, but the HTML should be primary source.
+        document.querySelector('#step-3 .interactive-icon:nth-child(1)').setAttribute('data-theme', 'trust');
+        document.querySelector('#step-3 .interactive-icon:nth-child(2)').setAttribute('data-theme', 'time');
+        document.querySelector('#step-3 .interactive-icon:nth-child(3)').setAttribute('data-theme', 'togetherness');
+
+
         icons.forEach(icon => {
             icon.addEventListener('click', () => {
                 const theme = icon.getAttribute('data-theme');
                 
-                // Update text
+                // Update text with fade effect
                 themeTextElement.style.opacity = 0;
                 setTimeout(() => {
                     themeTextElement.textContent = themeData[theme];
                     themeTextElement.style.opacity = 1;
-                }, 500);
+                }, 600); // Increased fade time for text
 
                 // Update active icon style
                 icons.forEach(i => i.classList.remove('active'));
@@ -208,12 +303,22 @@
             });
         });
         
-        // Initial state
-        showStep(0);
-        themeTextElement.textContent = "Click an icon above to see its meaning.";
-        setTimeout(() => { themeTextElement.style.opacity = 1; }, 500);
+        // Initial state: show the first step and set initial theme text
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initially hide all steps except the first one in JS
+            steps.elements.forEach((el, index) => {
+                if (index !== 0) {
+                    el.classList.add('hidden-section');
+                }
+            });
+            // Ensure the first step is visible (it should not have hidden-section in HTML)
+            steps.elements[0].classList.remove('hidden-section');
 
-
+            steps.current = 0; // Set current step to 0
+            
+            themeTextElement.textContent = "Click an icon above to see its meaning.";
+            setTimeout(() => { themeTextElement.style.opacity = 1; }, 500); // Fade in initial theme text
+        });
     </script>
 </body>
 </html>
