@@ -42,11 +42,12 @@
             box-sizing: border-box; /* Include padding in width/height */
             width: 100%; /* Take full width up to max-w */
             max-width: 900px; /* Limit width on large screens */
-            min-height: 700px; /* Ensure a base height for content */
+            /* min-height removed, will be driven by content of active section */
             display: flex; /* Use flex to manage inner sections */
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding-bottom: 2rem; /* Ensure space for content at bottom */
         }
 
         .card-section {
@@ -89,6 +90,13 @@
             align-items: center;
             justify-content: center;
             text-align: center; /* Ensure text is centered within its display */
+        }
+        /* New class for active theme text display */
+        .theme-text-active-bg {
+            background-color: #fffbeb; /* Light amber background */
+            border-radius: 0.75rem;
+            padding: 1rem; /* Add padding */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Subtle shadow */
         }
         /* Custom styles for professional look */
         .btn-primary {
@@ -382,7 +390,7 @@
             steps.current = stepIndex;
 
             // Scroll to top of the window
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
             // Trigger appropriate burst on step change
             triggerBurst(stepIndex === 3); // True if it's the last step
@@ -413,9 +421,13 @@
                 
                 // Update text with fade effect
                 themeTextElement.style.opacity = 0;
+                themeTextElement.classList.remove('theme-text-active-bg'); // Remove previous active state
                 setTimeout(() => {
                     themeTextElement.textContent = themeData[theme];
                     themeTextElement.style.opacity = 1;
+                    themeTextElement.classList.add('theme-text-active-bg'); // Add active state
+                    // Scroll to the theme text display after it updates, centering it
+                    themeTextElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 600); // Increased fade time for text
 
                 // Update active icon style
