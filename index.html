@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Message for Isha</title>
+    <!-- Chosen Palette: Golden Harmony -->
+    <!-- Application Structure Plan: A guided, multi-step "digital unveiling" experience. The user starts with a "cover," then clicks to reveal the gift, then interacts with key themes (Trust, Time, Togetherness) to see their meaning, and finally views the closing message and signature. This structure turns a static letter into a memorable, paced experience, mirroring the act of opening a precious gift and reading its card. It prioritizes emotional engagement over a simple data display. -->
+    <!-- Visualization & Content Choices: 1. Cover: Large text with a button to build anticipation (HTML/CSS). 2. Gift Reveal: Animated card-like element to focus on the core gift (HTML/CSS/JS). 3. Thematic Exploration: Three interactive icons (Unicode characters styled with CSS) that, when clicked, reveal descriptive text (JS interaction). This organizes the core values and encourages engagement. 4. Quote & Closing: Elegantly styled text blocks for a clean, final presentation (HTML/CSS). No charts are needed as the source is qualitative. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fdfaf6; /* Warm off-white */
+        }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-great-vibes { font-family: 'Great Vibes', cursive; }
+        .card-section {
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+        .hidden-section {
+            opacity: 0;
+            transform: translateY(20px);
+            display: none;
+        }
+        .interactive-icon {
+            transition: all 0.3s ease;
+        }
+        .interactive-icon:hover {
+            transform: scale(1.1);
+            filter: brightness(1.1);
+        }
+        .interactive-icon.active {
+            transform: scale(1.15);
+            background-color: #fef3c7; /* Light yellow to indicate active state */
+            box-shadow: 0 0 15px rgba(255, 223, 133, 0.7);
+        }
+        #theme-text-display {
+            transition: opacity 0.5s ease-in-out;
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
+
+    <main class="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+        
+        <!-- Step 1: The Cover / Envelope -->
+        <section id="step-1" class="card-section p-8 sm:p-12 text-center fade-in">
+            <div class="w-full">
+                <h1 class="font-playfair text-4xl sm:text-5xl md:text-6xl text-gray-800">To My Dearest Isha,</h1>
+                <p class="font-great-vibes text-3xl sm:text-4xl text-amber-600 mt-4">My Forever Light</p>
+                <p class="mt-8 text-gray-500 text-lg">On your first birthday as my wife</p>
+                <p class="text-gray-500">July 16, 2025</p>
+                <button id="open-button" class="mt-12 bg-amber-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-amber-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-opacity-50">
+                    Click to Open 💌
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 2: The Gift Reveal -->
+        <section id="step-2" class="card-section hidden-section p-8 sm:p-12 text-center">
+            <div class="w-full">
+                <p class="text-lg text-gray-500 mb-4">With all my love, I present to you...</p>
+                <div class="bg-amber-50 border-2 border-amber-400 rounded-xl p-6 sm:p-8 shadow-inner my-6">
+                    <h2 class="font-playfair font-bold text-4xl sm:text-5xl text-amber-900">33 Shares</h2>
+                    <p class="text-xl sm:text-2xl text-gray-700 mt-2">in</p>
+                    <p class="font-playfair text-3xl sm:text-4xl text-amber-800 mt-1">Premier Energis Ltd.</p>
+                </div>
+                <p class="text-gray-600 mt-6 max-w-2xl mx-auto text-base sm:text-lg">
+                    This isn't merely an investment in a company, my love. This is a symbol of the vibrant future we are building together, and a testament to the shared power of our dreams.
+                </p>
+                <button id="next-button-1" class="mt-12 bg-gray-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
+                    See What It Represents ✨
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 3: Interactive Themes -->
+        <section id="step-3" class="card-section hidden-section p-8 sm:p-12 text-center">
+            <div class="w-full">
+                <h2 class="font-playfair text-2xl sm:text-3xl text-gray-800">In every watt of energy this company generates, may you feel the immense energy of my love for you.</h2>
+                <p class="text-gray-600 mt-4 text-base sm:text-lg">It's a love that, like these shares, is rooted in:</p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 mt-10">
+                    <div class="interactive-icon text-center cursor-pointer p-4 rounded-full" data-theme="trust">
+                        <div class="bg-amber-100 text-amber-600 text-4xl rounded-full w-20 h-20 flex items-center justify-center shadow-md">💛</div>
+                        <p class="mt-3 font-semibold text-gray-700">Unwavering Trust</p>
+                    </div>
+                    <div class="interactive-icon text-center cursor-pointer p-4 rounded-full" data-theme="time">
+                        <div class="bg-amber-100 text-amber-600 text-4xl rounded-full w-20 h-20 flex items-center justify-center shadow-md">⏳</div>
+                        <p class="mt-3 font-semibold text-gray-700">Cherished Time</p>
+                    </div>
+                    <div class="interactive-icon text-center cursor-pointer p-4 rounded-full" data-theme="togetherness">
+                        <div class="bg-amber-100 text-amber-600 text-4xl rounded-full w-20 h-20 flex items-center justify-center shadow-md">🤝</div>
+                        <p class="mt-3 font-semibold text-gray-700">Deep Togetherness</p>
+                    </div>
+                </div>
+
+                <div id="theme-text-display" class="mt-8 min-h-[100px] flex items-center justify-center p-4">
+                    <p id="theme-text" class="text-gray-600 italic text-lg max-w-xl mx-auto opacity-0"></p>
+                </div>
+                 <button id="next-button-2" class="mt-8 bg-gray-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
+                    Our Promise
+                </button>
+            </div>
+        </section>
+        
+        <!-- Step 4: Final Message & Quote -->
+        <section id="step-4" class="card-section hidden-section p-8 sm:p-12 text-center">
+             <div class="w-full">
+                <div class="bg-amber-50 border-l-4 border-amber-500 text-left p-6 sm:p-8 my-8 max-w-2xl mx-auto shadow-sm">
+                    <p class="font-playfair italic text-xl sm:text-2xl text-gray-700">
+                        "From this cherished day forward, may our hearts expand as gracefully as our assets do — cultivating a wealth not merely in finance, but in an abundance of shared laughter, soaring dreams, and countless precious moments."
+                    </p>
+                </div>
+                
+                 <p class="text-gray-600 mt-10 max-w-2xl mx-auto text-base sm:text-lg">
+                    Happy Birthday, my love. This is only the beginning of our forever portfolio.
+                </p>
+
+                <p class="font-great-vibes text-4xl text-amber-600 mt-10">Alpesh Patel</p>
+                <p class="text-gray-500 text-sm">Your Loving Husband, Always and Forever</p>
+
+                <p class="mt-12 text-gray-500 font-semibold tracking-wider">
+                    A Share of Energy ● A Share of Love ● A Future Woven Together
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const steps = {
+            current: 0,
+            elements: [
+                document.getElementById('step-1'),
+                document.getElementById('step-2'),
+                document.getElementById('step-3'),
+                document.getElementById('step-4'),
+            ]
+        };
+        
+        const themeData = {
+            trust: "The foundation upon which our beautiful life is built.",
+            time: "Every moment spent with you is a treasure, compounding our happiness.",
+            togetherness: "Our journey, hand in hand, creating a future richer than any financial portfolio."
+        };
+
+        const themeTextElement = document.getElementById('theme-text');
+        const icons = document.querySelectorAll('.interactive-icon');
+
+        function showStep(stepIndex) {
+            steps.elements.forEach((el, index) => {
+                if (index === stepIndex) {
+                    el.style.display = 'block';
+                    // Delay slightly to allow display property to apply before animation starts
+                    setTimeout(() => {
+                        el.classList.remove('hidden-section');
+                    }, 50);
+                } else {
+                    el.classList.add('hidden-section');
+                    // Hide element after transition
+                    setTimeout(() => {
+                        if(index !== stepIndex) el.style.display = 'none';
+                    }, 1000);
+                }
+            });
+            steps.current = stepIndex;
+        }
+
+        document.getElementById('open-button').addEventListener('click', () => {
+            showStep(1);
+        });
+        
+        document.getElementById('next-button-1').addEventListener('click', () => {
+            showStep(2);
+        });
+        
+        document.getElementById('next-button-2').addEventListener('click', () => {
+            showStep(3);
+        });
+
+        icons.forEach(icon => {
+            icon.addEventListener('click', () => {
+                const theme = icon.getAttribute('data-theme');
+                
+                // Update text
+                themeTextElement.style.opacity = 0;
+                setTimeout(() => {
+                    themeTextElement.textContent = themeData[theme];
+                    themeTextElement.style.opacity = 1;
+                }, 500);
+
+                // Update active icon style
+                icons.forEach(i => i.classList.remove('active'));
+                icon.classList.add('active');
+            });
+        });
+        
+        // Initial state
+        showStep(0);
+        themeTextElement.textContent = "Click an icon above to see its meaning.";
+        setTimeout(() => { themeTextElement.style.opacity = 1; }, 500);
+
+
+    </script>
+</body>
+</html>
