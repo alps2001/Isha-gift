@@ -29,28 +29,26 @@
         /* Main container for the interactive card */
         .main-card-container {
             perspective: 1000px; /* For subtle 3D effects on transitions */
-            position: relative;
-            min-height: 650px; /* Ensure enough height for content */
+            /* Removed min-height and overflow-hidden - will auto-adjust */
+            position: relative; /* Needed for z-index and potential future absolute children */
         }
 
         .card-section {
-            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out; /* Slightly longer, smoother transition */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
+            transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out; /* Slightly longer, smoother transition */
+            /* Removed position: absolute, top, left, width, height - now a block element */
+            display: flex; /* Still flex to center content within its own space */
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 2rem; /* Consistent padding */
             backface-visibility: hidden; /* Prevent flickering during 3D transforms */
+            min-height: 600px; /* Ensure a minimum height for each section */
         }
         .hidden-section {
             opacity: 0;
             transform: translateY(30px) rotateX(5deg); /* More pronounced slide and subtle rotate */
-            pointer-events: none;
-            visibility: hidden;
+            pointer-events: none; /* Prevent interaction when hidden */
+            visibility: hidden; /* Hide from screen readers and layout */
+            display: none; /* Crucial: hide from layout when not active */
         }
         .interactive-icon {
             transition: all 0.3s ease;
